@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.mybatis.UserMapper2">
+
+	<insert id="insertName" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_department(name) values(#{name})
+	</insert>
+
+
+	<delete id="deleteById">
+		DELETE FROM t_department WHERE id IN(
+		<foreach collection="array" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+
+	<select id="selectName" resultType="cn.tedu.mybatis.User2">
+		SELECT * FROM t_department
+		WHERE id=#{id}
+	</select>
+
+	<select id="findAll" resultType="cn.tedu.mybatis.User2">
+		SELECT * FROM t_department ORDER
+		BY id
+	</select>
+	
+	<resultMap type="cn.tedu.mybatis.DepartmentVO" id="DepartmentVOMap">
+		<id column="ids" property="id"/>
+		<result column="name" property="name"/>
+		 <!-- collection节点：用于配置1对多的查询结果 -->
+   		 <!-- property属性：类中的哪个属性用于封装多个结果中的数据 -->
+   		 <!-- ofType属性：集合属性中的元素的类型，即：这个List集合中放的是什么类型的数据 -->
+		<collection property="users" ofType="cn.tedu.mybatis.User">
+		<id column="id" property="id"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="age" property="age"/>
+		<result column="phone" property="phone"/>
+		<result column="email" property="email"/>
+		<result column="department_id" property="departmentId"/>
+		</collection>
+		
+	</resultMap>
+	
+	<select id="findVOById" resultMap="DepartmentVOMap">
+		SELECT t_department.id AS ids,name,t_user.*
+		FROM t_department LEFT
+		JOIN t_user
+		ON t_department.id=t_user.department_id
+		WHERE t_department.id=#{id}
+
+	</select>
+
+</mapper>

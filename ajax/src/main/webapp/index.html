@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript">
+let json ={
+	"username":"root",	
+	"password":"1234",
+	"age":25,
+	"phone":"13800138000",
+	"email":"root@163.com",
+	"skills":["Java", "SQL", "JavaScript"],
+    "department": {
+        "id":6,
+        "name":"软件研发部"
+    }  
+};
+
+console.log(json.username);
+console.log(json.skills);
+console.log(json.skills.length);
+for (let i = 0; i < json.skills.length; i++) {
+    console.log(json.skills[i]);
+}
+console.log(json.department.id);
+console.log(json.department.name);
+</script>
+</body>
+</html>
